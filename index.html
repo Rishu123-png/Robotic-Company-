@@ -1,39 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Robotics Company</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Robotics Company - Innovative Robotics Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<style>
+  :root {
+    --primary-color: #005f73;
+    --secondary-color: #0a9396;
+    --accent-color: #94d2bd;
+    --text-color: #001219;
+    --background-color: #e9f1f7;
+    --white: #ffffff;
+    --font-family: 'Inter', sans-serif;
+    --border-radius: 12px;
+    --spacing-small: 12px;
+    --spacing-medium: 24px;
+    --spacing-large: 48px;
+  }
+
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a:hover, a:focus {
+    color: var(--primary-color);
+    outline: none;
+  }
+
+  /* Layout container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: var(--spacing-medium);
+    padding-right: var(--spacing-medium);
+  }
+
+  /* Header */
+  header {
+    background-color: var(--white);
+    border-bottom: 1px solid #a8dadc;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo .material-icons {
+    font-size: 2rem;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: var(--spacing-medium);
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+  }
+  nav a:hover, nav a:focus {
+    background-color: var(--accent-color);
+    color: var(--white);
+  }
+
+  /* Mobile menu toggle using checkbox hack */
+  #menu-toggle {
+    display: none;
+  }
+
+  label[for="menu-toggle"] {
+    display: none;
+    font-size: 2rem;
+    color: var(--primary-color);
+    cursor: pointer;
+  }
+
+  /* Mobile menu styles */
+  @media(max-width: 767px) {
+    nav ul {
+      position: absolute;
+      top: 64px;
+      right: 0;
+      width: 200px;
+      flex-direction: column;
+      background: var(--white);
+      border-radius: 0 0 var(--border-radius) var(--border-radius);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      padding: var(--spacing-small) 0;
+      margin: 0;
+      display: none;
+      z-index: 1000;
+    }
+    nav ul li {
+      margin: 0;
+    }
+    nav ul li a {
+      display: block;
+      padding: 12px 20px;
+    }
+    #menu-toggle:checked + label + nav ul {
+      display: flex;
+    }
+    label[for="menu-toggle"] {
+      display: block;
+    }
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--white);
+    padding: var(--spacing-large) 0 var(--spacing-large);
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 2.75rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-small);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.1;
+  }
+  .hero p {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero img {
+    margin-top: var(--spacing-large);
+    max-width: 320px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  }
+
+  /* Features section */
+  section.features {
+    background: var(--white);
+    padding: var(--spacing-large) 0;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--spacing-large);
+  }
+  .feature-card {
+    background: var(--background-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-medium);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+  }
+  .feature-card:hover,
+  .feature-card:focus-within {
+    box-shadow: 0 8px 28px rgb(0 0 0 / 0.15);
+  }
+  .feature-icon {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-small);
+  }
+  .feature-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+  }
+  .feature-desc {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  /* Contact section */
+  section.contact {
+    padding: var(--spacing-large) 0;
+    background: var(--secondary-color);
+    color: var(--white);
+    text-align: center;
+  }
+  .contact h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-medium);
+  }
+  .contact a {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+  .social-links {
+    margin-top: var(--spacing-medium);
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-medium);
+  }
+  .social-links a {
+    color: var(--white);
+    font-size: 1.8rem;
+    transition: color 0.3s ease;
+  }
+  .social-links a:hover, .social-links a:focus {
+    color: var(--accent-color);
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    background: var(--primary-color);
+    color: var(--white);
+    padding: var(--spacing-small);
+    font-size: 0.9rem;
+    user-select: none;
+  }
+
+  /* Tablet adjustments */
+  @media(min-width: 768px) and (max-width: 1023px) {
+    .container {
+      max-width: 90%;
+      padding-left: var(--spacing-small);
+      padding-right: var(--spacing-small);
+    }
+  }
+</style>
 </head>
 <body>
-    <header>
-        <h1>RoboTech Solutions</h1>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Products</a>
-            <a href="#">Contact</a>
-        </nav>
-    </header>
-    <section class="hero">
-        <h2>Innovating the Future with Robotics</h2>
-        <p>We design and build cutting-edge robots for industry and education.</p>
-    </section>
-    <section class="products">
-        <h3>Our Products</h3>
-        <div class="product-list">
-            <div class="product">
-                <h4>Industrial Robot Arm</h4>
-                <p>Precision and reliability for manufacturing automation.</p>
-            </div>
-            <div class="product">
-                <h4>Educational Robot Kit</h4>
-                <p>Hands-on STEM learning for all ages.</p>
-            </div>
-        </div>
-    </section>
-    <footer>
-        <p>&copy; 2025 RoboTech Solutions. All rights reserved.</p>
-    </footer>
+<header>
+  <div class="container header-inner">
+    <a href="#" class="logo" aria-label="Robotics Company Home">
+      <span class="material-icons" aria-hidden="true">android</span> RoboTech
+    </a>
+    <!-- Hidden checkbox for menu toggle -->
+    <input type="checkbox" id="menu-toggle" aria-label="Toggle navigation menu" />
+    <label for="menu-toggle" aria-hidden="true" tabindex="0"><span class="material-icons">menu</span></label>
+    <nav aria-label="Primary navigation">
+      <ul role="menu">
+        <li><a href="#about" role="menuitem" tabindex="0">About</a></li>
+        <li><a href="#features" role="menuitem" tabindex="0">Features</a></li>
+        <li><a href="#contact" role="menuitem" tabindex="0">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="about" class="hero" role="region" aria-labelledby="hero-title">
+    <h1 id="hero-title">Innovative Robotics for a Smarter Tomorrow</h1>
+    <p>Leading the way in robotics technology with cutting-edge solutions for education, industry, and daily life.</p>
+    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4d49a227-9d13-4e66-8b87-a935baf0ff10.png" alt="Modern robotic arm manipulating objects in an industrial setting" />
+  </section>
+  <section id="features" class="features container" role="region" aria-labelledby="features-title">
+    <h2 id="features-title" style="text-align:center; margin-bottom: var(--spacing-large); color: var(--primary-color); font-weight: 700; font-size: 2rem;">Our Robotics Highlights</h2>
+    <div class="features-grid">
+      <article class="feature-card" tabindex="0" role="article" aria-label="Advanced Robotics Engineering">
+        <span class="material-icons feature-icon" aria-hidden="true">build_circle</span>
+        <h3 class="feature-title">Advanced Engineering</h3>
+        <p class="feature-desc">Developing precise robotics systems using state-of-the-art engineering principles and materials.</p>
+      </article>
+      <article class="feature-card" tabindex="0" role="article" aria-label="Educational Robotics Platforms">
+        <span class="material-icons feature-icon" aria-hidden="true">school</span>
+        <h3 class="feature-title">Educational Platforms</h3>
+        <p class="feature-desc">Creating interactive kits and platforms to inspire the next generation of robotics engineers.</p>
+      </article>
+      <article class="feature-card" tabindex="0" role="article" aria-label="Collaborative Robot Solutions">
+        <span class="material-icons feature-icon" aria-hidden="true">group_work</span>
+        <h3 class="feature-title">Collaborative Robots</h3>
+        <p class="feature-desc">Innovative cobots designed to work safely alongside humans in factories and labs.</p>
+      </article>
+      <article class="feature-card" tabindex="0" role="article" aria-label="Sustainable Robotics Technology">
+        <span class="material-icons feature-icon" aria-hidden="true">eco</span>
+        <h3 class="feature-title">Sustainable Technology</h3>
+        <p class="feature-desc">Environmentally conscious robotics designed with energy efficiency and recyclability in mind.</p>
+      </article>
+    </div>
+  </section>
+  <section id="contact" class="contact" role="region" aria-labelledby="contact-title">
+    <h2 id="contact-title">Get in Touch</h2>
+    <p>Have questions? Want to collaborate? Reach out to us at <a href="mailto:info@robotech.com">info@robotech.com</a></p>
+    <div class="social-links" aria-label="Social media links">
+      <a href="#" aria-label="Facebook" tabindex="0"><span class="material-icons" aria-hidden="true">facebook</span></a>
+      <a href="#" aria-label="Twitter" tabindex="0"><span class="material-icons" aria-hidden="true">twitter</span></a>
+      <a href="#" aria-label="LinkedIn" tabindex="0"><span class="material-icons" aria-hidden="true">linkedin</span></a>
+      <a href="#" aria-label="Instagram" tabindex="0"><span class="material-icons" aria-hidden="true">instagram</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2024 RoboTech Robotics Company. All rights reserved.</p>
+</footer>
 </body>
-  </html>
+</html>
+
+    
