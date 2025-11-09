@@ -1,5 +1,6 @@
-let step = 0;
+    let step = 0;
 let student = {};
+let verifiedStudent = null;
 let chat = document.getElementById("chat-window");
 
 function botMessage(text) {
@@ -28,43 +29,71 @@ function sendMessage() {
 }
 
 function botReply(msg) {
-  msg = msg.toLowerCase();
+  msg = msg.trim();
 
   if (step === 0) {
-    botMessage("👋 Hi! Please tell me your name.");
+    botMessage("👋 Hi! Please tell me your full name to verify your record.");
     step++;
-  } else if (step === 1) {
+  } 
+  else if (step === 1) {
     student.name = msg;
-    botMessage(`Nice to meet you, ${student.name}! What class are you in? (e.g. 11A, 11B)`);
+    verifiedStudent = studentsData.find(s => s.name.toLowerCase() === msg.toLowerCase());
+
+    if (!verifiedStudent) {
+      botMessage("⚠️ Sorry, your name is not found in the school database. Please try again or contact your teacher.");
+      step = 0;
+      return;
+    }
+
+    botMessage(`Welcome ${verifiedStudent.name}! You are registered in class ${verifiedStudent.class} for ${verifiedStudent.subject}.`);
+    botMessage(`Please confirm your class name to continue.`);
     step++;
-  } else if (step === 2) {
+  } 
+  else if (step === 2) {
     student.class = msg.toUpperCase();
-    botMessage(`Got it. Which subject are you attending right now? (AI / CS / PED / Data Science / Psychology)`);
+
+    if (student.class !== verifiedStudent.class) {
+      botMessage(`❌ Wrong class! You are registered in ${verifiedStudent.class}.`);
+      step = 0;
+      return;
+    }
+
+    botMessage(`✅ Verified class ${student.class}. Now confirm your subject.`);
     step++;
-  } else if (step === 3) {
+  } 
+  else if (step === 3) {
     student.subject = msg;
-    botMessage(`Okay ${student.name}, are you present today? (yes / no)`);
+
+    if (student.subject.toLowerCase() !== verifiedStudent.subject.toLowerCase()) {
+      botMessage(`❌ Wrong subject! You are enrolled in ${verifiedStudent.subject}.`);
+      step = 0;
+      return;
+    }
+
+    botMessage(`All details matched. Are you present today? (yes / no)`);
     step++;
-  } else if (step === 4) {
-    if (msg.includes("yes")) {
+  } 
+  else if (step === 4) {
+    if (msg.toLowerCase() === "yes") {
       student.status = "Present";
     } else {
       student.status = "Absent";
     }
 
-    // Save attendance
     let data = JSON.parse(localStorage.getItem("studentAttendance")) || [];
     data.push({
-      name: student.name,
-      class: student.class,
-      subject: student.subject,
+      name: verifiedStudent.name,
+      class: verifiedStudent.class,
+      subject: verifiedStudent.subject,
       status: student.status,
       time: new Date().toLocaleTimeString()
     });
     localStorage.setItem("studentAttendance", JSON.stringify(data));
 
-    botMessage(`✅ Your attendance has been marked as "${student.status}" for ${student.subject} (${student.class}).`);
+    botMessage(`✅ Attendance marked as "${student.status}" for ${verifiedStudent.subject} (${verifiedStudent.class}).`);
     botMessage("Thank you! 👋");
+
+    // Reset flow
     step = 0;
   }
 }
