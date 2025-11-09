@@ -3,28 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Attendance Chatbot</title>
+  <title>Smart Attendance Chatbot System</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>💬 Student Attendance Chatbot</h1>
-    <p>Class Attendance Assistant | Jaypee Public School</p>
-  </header>
+  <div class="container">
+    <h1>🎓 Smart Attendance Chatbot System</h1>
+    <p class="by">Created by <b>Rishu Jaswar</b></p>
 
-  <section id="chatbot">
-    <div id="chat-window"></div>
-
-    <div id="user-input">
-      <input type="text" id="userMessage" placeholder="Type your message..." onkeypress="handleKey(event)">
-      <button onclick="sendMessage()">Send</button>
+    <div id="loginSection">
+      <h2>Teacher Login</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
     </div>
-  </section>
 
-  <footer>
-    <p>Created by Rishu Jaswar © 2025</p>
-  </footer>
-  <script src="student.js"></script>
+    <div id="attendanceSection" class="hidden">
+      <h2>Welcome, 👋 <span id="teacherName"></span></h2>
+
+      <label for="classSelect">Select Class:</label>
+      <select id="classSelect">
+        <option value="11A">11A</option>
+        <option value="11B">11B</option>
+      </select>
+
+      <label for="subjectSelect">Select Subject:</label>
+      <select id="subjectSelect">
+        <option value="CS">CS</option>
+        <option value="AI">AI</option>
+        <option value="PED">PED</option>
+        <option value="PSY">Psychology</option>
+        <option value="DS">Data Science</option>
+      </select>
+
+      <button onclick="loadStudents()">Load Students</button>
+
+      <div id="studentsList"></div>
+
+      <button onclick="saveAttendance()">💾 Save Attendance</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <footer>
+      <p>© 2025 Smart Attendance Chatbot by Rishu Jaswar</p>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
